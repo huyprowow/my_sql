@@ -27,7 +27,10 @@ CREATE TABLE branch (
         ON DELETE SET NULL
 );
 #FOREIGN KEY: khoa ngoai... REFERENCES: tham chieu den khoa chinh bang ...
-# ONDELETE SET NULL:
+# ONDELETE SET NULL: neu xoa nhan vien (row) khi do mgr_id(khoa ngoai) co lien quan 
+# den nhan vien do se dc dat thanh NULL
+# dat ON DELETE SET NULL boi vi mgr_id cua bang branch chi la khoa ngoai,
+#k phai khoa chinh, mgr_id k hoan toan can thiet cho bang branch
 
 /*them khoa ngoai*/
 ALTER TABLE employee
@@ -59,9 +62,8 @@ CREATE TABLE works_with (
 );
 # PRIMARY KEY(nhieu khoa): khoa hon hop(composite key)
 -- dung khi ca 2 hay nhieu cot deu la khoa chinh nhung k cai nao duy nhat => ket hop 2 hoac nhieu khoa de thanh duy nhat
-#ON DELETE CASCADE:
 
-/*bang nhanh ho tro*/
+/*bang nguoi ho tro nhanh*/
 CREATE TABLE branch_supplier (
     branch_id INT,
     supplier_name VARCHAR(40),
@@ -71,6 +73,11 @@ CREATE TABLE branch_supplier (
         REFERENCES branch (branch_id)
         ON DELETE CASCADE
 );
+#ON DELETE CASCADE: neu branch_id luu tru khoa ngoai o trong branch supplier bi xoa 
+#no se xoa toan bo hang trong database
+#vi branch_id khoa ngoai o day la 1 phan cua khoa chinh cua bang branch_supplier
+#no co nghia la branch_id o trong bang branch_sup hoan toan quan trong trong hang nay o database
+#chung ta k the dat no thanh NULL vi khoa chinh k the NULL
 
 -- -----------------------------------------------------------------------------
 /* chen dl */
@@ -149,13 +156,13 @@ INSERT INTO works_with VALUES(107, 405, 26000);
 INSERT INTO works_with VALUES(102, 406, 15000);
 INSERT INTO works_with VALUES(105, 406, 130000);
 
--- -------------ktra ------
+-- -------------ktra sua------
 DESCRIBE employee;
 
 SELECT 
     *
 FROM
-    works_with;
+    branch_supplier;
     
 alter table employee  rename column birth_day to birth_date;#doi ten cot
 set sql_safe_updates=0;

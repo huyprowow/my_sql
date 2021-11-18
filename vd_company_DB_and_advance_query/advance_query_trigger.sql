@@ -31,27 +31,29 @@ DELIMITER ;
 INSERT INTO employee
 VALUES(109, 'Oscar', 'Martinez', '1968-02-19', 'M', 69000, 106, 3);
 
-
-DELIMITER $$
-CREATE
-    TRIGGER my_trigger BEFORE INSERT
-    ON employee
-    FOR EACH ROW BEGIN
-        INSERT INTO trigger_test VALUES(NEW.first_name);
-    END$$
-DELIMITER ;
-
-INSERT INTO employee
-VALUES(110, 'Kevin', 'Malone', '1978-02-19', 'M', 69000, 106, 3);
-
 -- ktra
 SELECT 
     *
 FROM
     trigger_test;
+
 DELIMITER $$
 CREATE
-    TRIGGER my_trigger BEFORE INSERT
+    TRIGGER my_trigger1 BEFORE INSERT
+    ON employee
+    FOR EACH ROW BEGIN
+        INSERT INTO trigger_test VALUES(NEW.first_name);
+    END$$
+DELIMITER ;
+#trigger cho phep truy cap vao thuoc tinh cai ma ta vua chen vao
+#NEW.first_name se cho ra ten nv vua chen vao
+
+INSERT INTO employee
+VALUES(110, 'Kevin', 'Malone', '1978-02-19', 'M', 69000, 106, 3);
+
+DELIMITER $$
+CREATE
+    TRIGGER my_trigger2 BEFORE INSERT
     ON employee
     FOR EACH ROW BEGIN
          IF NEW.sex = 'M' THEN
@@ -69,3 +71,5 @@ VALUES(111, 'Pam', 'Beesly', '1988-02-19', 'F', 69000, 106, 3);
 
 
 DROP TRIGGER my_trigger;
+DROP TRIGGER my_trigger1;
+DROP TRIGGER my_trigger2;
